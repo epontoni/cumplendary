@@ -260,6 +260,7 @@ export default function Home() {
 
               <div className="flex flex-col w-full">
                 {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   month.birthdays.map((person: any, index) => (
                     <div key={index} className={cn("flex flex-1 gap-1 items-center max-h-[34px] mb-1", diasRestantes(person.date.day, person.date.month) == 365 ? "bg-white shadow rounded-lg" : "")}>
                       <div className="w-6 h-6 bg-blue-500 flex items-center justify-center text-center rounded-full text-white text-xs font-semibold">
