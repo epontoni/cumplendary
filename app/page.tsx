@@ -1,12 +1,11 @@
 "use client";
 
-import { Cake } from "lucide-react";
+// import { Cake } from "lucide-react";
 import Header from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
 import { cn, diasRestantes, isTodayBirthday } from "@/lib/utils";
 import confetti from "canvas-confetti"
 import { useEffect } from "react";
-// import Footer from "@/components/Footer";
 
 const calendar = [
   {
@@ -169,7 +168,7 @@ const calendar = [
 ];
 
 
-const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+// const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
 const isBirthday = isTodayBirthday(calendar)
 
@@ -289,7 +288,7 @@ export default function Home() {
           ))}
         </section>
 
-        {/* <Footer /> */}
+
       </div>
     </>
   );

@@ -26,6 +26,7 @@ export function diasRestantes(dia: number, mes:number) {
   return dias;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isTodayBirthday(calendar: any) {
   const today = new Date();
   const currentDay = today.getDate();
