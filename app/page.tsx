@@ -1,11 +1,12 @@
 "use client";
 
 import { Cake } from "lucide-react";
-import Header from "./components/Header";
+import Header from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
 import { cn, diasRestantes, isTodayBirthday } from "@/lib/utils";
 import confetti from "canvas-confetti"
 import { useEffect } from "react";
+// import Footer from "@/components/Footer";
 
 const calendar = [
   {
@@ -218,9 +219,10 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (isBirthday) {
 
-      shootConfetti()
+    if (!isBirthday) return;
+
+    shootConfetti()
 
     // Ejecutar cada 5 minutos (ejemplo)
     const interval = setInterval(shootConfetti, 3000);
@@ -236,7 +238,6 @@ export default function Home() {
       clearInterval(interval);
       console.log("Fin del día: se detuvo la función");
     }, timeUntilMidnight);
-  }
 
     // Limpieza al desmontar
     return () => {
@@ -288,7 +289,7 @@ export default function Home() {
           ))}
         </section>
 
-
+        {/* <Footer /> */}
       </div>
     </>
   );
