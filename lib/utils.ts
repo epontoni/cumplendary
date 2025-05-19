@@ -24,6 +24,23 @@ export function diasRestantes(dia: number, mes:number) {
   const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
 
   return dias;
+}
 
+export function isTodayBirthday(calendar: any) {
+  const today = new Date();
+  const currentDay = today.getDate();
+  const currentMonth = today.getMonth() + 1; // Los meses en JS van de 0 a 11
 
+  for (const monthEntry of calendar) {
+    for (const birthday of monthEntry.birthdays) {
+      if (
+        birthday.date.day === currentDay &&
+        birthday.date.month === currentMonth
+      ) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }

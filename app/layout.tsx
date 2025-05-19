@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${yellowtail.variable} ${poetsen.variable} antialiased bg-gray-100 absolute top-0 z-[-2] h-screen w-screen bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)]`}
+        className={`${geistSans.variable} ${geistMono.variable} ${yellowtail.variable} ${poetsen.variable} antialiased bg-gray-100 absolute top-0 z-[-2] h-screen w-screen bg-[radial-gradient(100%_50%_at_50%_0%,rgba(0,163,255,0.13)_0,rgba(0,163,255,0)_50%,rgba(0,163,255,0)_100%)], bg-[url('/banderin-bg.png')] bg-[length:auto_100px] bg-repeat-x bg-[position:0px_-30px]`}
       >
         {children}
       </body>

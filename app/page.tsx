@@ -1,7 +1,11 @@
+"use client";
+
 import { Cake } from "lucide-react";
 import Header from "./components/Header";
 import { Badge } from "@/components/ui/badge";
-import { cn, diasRestantes } from "@/lib/utils";
+import { cn, diasRestantes, isTodayBirthday } from "@/lib/utils";
+import confetti from "canvas-confetti"
+import { useEffect } from "react";
 
 const calendar = [
   {
@@ -166,7 +170,82 @@ const calendar = [
 
 const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
+const isBirthday = isTodayBirthday(calendar)
+
 export default function Home() {
+
+  const shootConfetti = () => {
+
+    // const duration = 15 * 1000;
+    // const animationEnd = Date.now() + duration;
+    // const defaults = { startVelocity: 10, spread: 360, ticks: 60, zIndex: 0 };
+
+
+    function randomInRange(min: number, max: number) {
+      return Math.random() * (max - min) + min;
+    }
+
+    // const interval = setInterval(function () {
+    //   const timeLeft = animationEnd - Date.now();
+
+    //   if (timeLeft <= 0) {
+    //     return clearInterval(interval);
+    //   }
+
+    //   var particleCount = 50 * (timeLeft / duration);
+    //   // since particles fall down, start a bit higher than random
+    //   confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+    //   confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    // }, 250);
+
+
+
+      confetti({
+        particleCount: randomInRange(50, 100),
+        angle: 60,
+        spread: randomInRange(50, 70),
+        origin: { x: 0 }
+      });
+
+      confetti({
+        angle: 120,
+        spread: randomInRange(50, 70),
+        particleCount: randomInRange(50, 100),
+        origin: { x: 1 }
+      });
+
+
+  }
+
+  useEffect(() => {
+    if (isBirthday) {
+
+      shootConfetti()
+
+    // Ejecutar cada 5 minutos (ejemplo)
+    const interval = setInterval(shootConfetti, 3000);
+
+    // Calcular cuántos milisegundos faltan para la medianoche
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0); // siguiente medianoche
+    const timeUntilMidnight = midnight.getTime() - now.getTime();
+
+    // Detener el intervalo a medianoche
+    const timeout = setTimeout(() => {
+      clearInterval(interval);
+      console.log("Fin del día: se detuvo la función");
+    }, timeUntilMidnight);
+  }
+
+    // Limpieza al desmontar
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+
+  }, [])
+
   return (
     <>
       <div className="flex flex-col gap-2 items-center justify-center ">
@@ -181,8 +260,8 @@ export default function Home() {
 
               <div className="flex flex-col w-full">
                 {
-                  month.birthdays.map((person: any) => (
-                    <div className={cn("flex flex-1 gap-1 items-center max-h-[34px] mb-1", diasRestantes(person.date.day, person.date.month) == 365 ? "bg-white shadow rounded-lg" : "")}>
+                  month.birthdays.map((person: any, index) => (
+                    <div key={index} className={cn("flex flex-1 gap-1 items-center max-h-[34px] mb-1", diasRestantes(person.date.day, person.date.month) == 365 ? "bg-white shadow rounded-lg" : "")}>
                       <div className="w-6 h-6 bg-blue-500 flex items-center justify-center text-center rounded-full text-white text-xs font-semibold">
                         {person.date.day}
                       </div>
