@@ -1,11 +1,13 @@
 "use client";
 
+import Congrat from "@/components/Congrat";
 // import { Cake } from "lucide-react";
 import Header from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
 import { cn, diasRestantes, isTodayBirthday } from "@/lib/utils";
-import confetti from "canvas-confetti"
-import { useEffect } from "react";
+import confetti from "canvas-confetti";
+import { clear } from "console";
+import { useEffect, useState } from "react";
 
 const calendar = [
   {
@@ -17,8 +19,8 @@ const calendar = [
       { name: "RINAUDO, Lucrecia", date: { day: 23, month: 1 } },
       { name: "MOLINEGRO, Zulma M.", date: { day: 26, month: 1 } },
       { name: "LOVERA, Gisela M.", date: { day: 28, month: 1 } },
-      { name: "MARTINEZ, Facundo", date: { day: 28, month: 1 } }
-    ]
+      { name: "MARTINEZ, Facundo", date: { day: 28, month: 1 } },
+    ],
   },
   {
     month: "Febrero",
@@ -29,8 +31,8 @@ const calendar = [
       { name: "VALINOTTI, Gerardo E.", date: { day: 8, month: 2 } },
       { name: "CIAMBERLINI, Ivana A.", date: { day: 16, month: 2 } },
       { name: "MAZZIERI, Claudio M.", date: { day: 14, month: 2 } },
-      { name: "ALESSANDRONI, Matías E.", date: { day: 28, month: 2 } }
-    ]
+      { name: "ALESSANDRONI, Matías E.", date: { day: 28, month: 2 } },
+    ],
   },
   {
     month: "Marzo",
@@ -38,8 +40,8 @@ const calendar = [
       { name: "FONTANA, Natali del R.", date: { day: 2, month: 3 } },
       { name: "MANSILLA, Eduardo D.", date: { day: 11, month: 3 } },
       { name: "RASPO, Vanesa B.", date: { day: 16, month: 3 } },
-      { name: "CASTRILLO, Gisela A.", date: { day: 25, month: 3 } }
-    ]
+      { name: "CASTRILLO, Gisela A.", date: { day: 25, month: 3 } },
+    ],
   },
   {
     month: "Abril",
@@ -49,8 +51,8 @@ const calendar = [
       { name: "STRIGHETTI, Rosalia L.", date: { day: 12, month: 4 } },
       { name: "SILVA, Jorge D.", date: { day: 24, month: 4 } },
       { name: "GÓMEZ, Fernando D.", date: { day: 23, month: 4 } },
-      { name: "TITTARELLI, HORACIO", date: { day: 30, month: 4 } }
-    ]
+      { name: "TITTARELLI, HORACIO", date: { day: 30, month: 4 } },
+    ],
   },
   {
     month: "Mayo",
@@ -62,8 +64,8 @@ const calendar = [
       { name: "COLOMBA, Emma M.", date: { day: 15, month: 5 } },
       { name: "ORTIZ, Mariángeles E.", date: { day: 18, month: 5 } },
       { name: "CARASSO, Maricel P.", date: { day: 22, month: 5 } },
-      { name: "BALDONI, Silvina A.", date: { day: 27, month: 5 } }
-    ]
+      { name: "BALDONI, Silvina A.", date: { day: 27, month: 5 } },
+    ],
   },
   {
     month: "Junio",
@@ -74,8 +76,8 @@ const calendar = [
       { name: "FALCO, Romina del M.", date: { day: 23, month: 6 } },
       { name: "CAPPELLI, Gilda", date: { day: 25, month: 6 } },
       { name: "GÓMEZ, Norma N.", date: { day: 26, month: 6 } },
-      { name: "FILIPUZZI, Horacio M.", date: { day: 20, month: 6 } }
-    ]
+      { name: "FILIPUZZI, Horacio M.", date: { day: 20, month: 6 } },
+    ],
   },
   {
     month: "Julio",
@@ -90,11 +92,11 @@ const calendar = [
       { name: "MARANI, Daniel E.", date: { day: 18, month: 7 } },
       { name: "MOCCICAFREDDO, Natalia", date: { day: 18, month: 7 } },
       { name: "GASTALDI, Cesar C.", date: { day: 14, month: 7 } },
-      { name: "MOLINEGRO, Silvina A.", date: { day: 21, month: 7 } },
+      { name: "MOLINEGRO, Silvia A.", date: { day: 21, month: 7 } },
       { name: "SERASSIO, Lucas", date: { day: 23, month: 7 } },
       { name: "MOYANO, José M.", date: { day: 25, month: 7 } },
-      { name: "RAMAZZOTTI, Antonella S.", date: { day: 31, month: 7 } }
-    ]
+      { name: "RAMAZZOTTI, Antonella S.", date: { day: 31, month: 7 } },
+    ],
   },
   {
     month: "Agosto",
@@ -111,8 +113,8 @@ const calendar = [
       { name: "TORTA, José L.", date: { day: 20, month: 8 } },
       { name: "JAIMES, Diego M.", date: { day: 23, month: 8 } },
       { name: "GUZMAN, Rosana A.", date: { day: 24, month: 8 } },
-      { name: "ROMAGNOLI, Antonela", date: { day: 29, month: 8 } }
-    ]
+      { name: "ROMAGNOLI, Antonela", date: { day: 29, month: 8 } },
+    ],
   },
   {
     month: "Septiembre",
@@ -124,8 +126,8 @@ const calendar = [
       { name: "GRASSO, Andrés P.", date: { day: 20, month: 9 } },
       { name: "BALDERRAMO, Saul A.", date: { day: 26, month: 9 } },
       { name: "GROSSO, Marcela A.", date: { day: 26, month: 9 } },
-      { name: "CARABAJAL, María de los A.", date: { day: 30, month: 9 } }
-    ]
+      { name: "CARABAJAL, María de los A.", date: { day: 30, month: 9 } },
+    ],
   },
   {
     month: "Octubre",
@@ -136,8 +138,8 @@ const calendar = [
       { name: "TITTARELLI, Claudia P.", date: { day: 11, month: 10 } },
       { name: "ARTONI, Eduardo M. L.", date: { day: 13, month: 10 } },
       { name: "MOCCICAFREDDO, Alfonsina I.", date: { day: 13, month: 10 } },
-      { name: "CALVO, Natalia B.", date: { day: 12, month: 10 } }
-    ]
+      { name: "CALVO, Natalia B.", date: { day: 12, month: 10 } },
+    ],
   },
   {
     month: "Noviembre",
@@ -150,8 +152,8 @@ const calendar = [
       { name: "REINAUDI, Natalia S.", date: { day: 24, month: 11 } },
       { name: "TORRES, Esteban", date: { day: 27, month: 11 } },
       { name: "ONGINI, Marcela A.", date: { day: 28, month: 11 } },
-      { name: "FIGUEROA, Juan C.", date: { day: 30, month: 11 } }
-    ]
+      { name: "FIGUEROA, Juan C.", date: { day: 30, month: 11 } },
+    ],
   },
   {
     month: "Diciembre",
@@ -162,24 +164,23 @@ const calendar = [
       { name: "ROMAGNOLI, María B.", date: { day: 17, month: 12 } },
       { name: "HEREDIA, Débora", date: { day: 20, month: 12 } },
       { name: "LUPPO, Gustavo O.", date: { day: 24, month: 12 } },
-      { name: "TACCA, Griselda M. del V.", date: { day: 29, month: 12 } }
-    ]
-  }
+      { name: "TACCA, Griselda M. del V.", date: { day: 29, month: 12 } },
+    ],
+  },
 ];
-
 
 // const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-const isBirthday = isTodayBirthday(calendar)
+const isBirthday = isTodayBirthday(calendar);
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(isBirthday);
+  const [names, setNames] = useState("");
 
   const shootConfetti = () => {
-
     // const duration = 15 * 1000;
     // const animationEnd = Date.now() + duration;
     // const defaults = { startVelocity: 10, spread: 360, ticks: 60, zIndex: 0 };
-
 
     function randomInRange(min: number, max: number) {
       return Math.random() * (max - min) + min;
@@ -198,33 +199,46 @@ export default function Home() {
     //   confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
     // }, 250);
 
+    confetti({
+      particleCount: randomInRange(50, 100),
+      angle: 60,
+      spread: randomInRange(50, 70),
+      origin: { x: 0 },
+    });
 
-
-      confetti({
-        particleCount: randomInRange(50, 100),
-        angle: 60,
-        spread: randomInRange(50, 70),
-        origin: { x: 0 }
-      });
-
-      confetti({
-        angle: 120,
-        spread: randomInRange(50, 70),
-        particleCount: randomInRange(50, 100),
-        origin: { x: 1 }
-      });
-
-
-  }
+    confetti({
+      angle: 120,
+      spread: randomInRange(50, 70),
+      particleCount: randomInRange(50, 100),
+      origin: { x: 1 },
+    });
+  };
 
   useEffect(() => {
-
     if (!isBirthday) return;
 
-    shootConfetti()
+    shootConfetti();
 
     // Ejecutar cada 5 minutos (ejemplo)
     const interval = setInterval(shootConfetti, 3000);
+
+    const congratInterval = setInterval(() => {
+      setIsOpen((prev) => !prev);
+    }, 5000); // cambia cada 5 segundos
+
+    const today = new Date();
+    const todayDay = today.getDate();
+    const todayMonth = today.getMonth() + 1; // getMonth() is 0-indexed
+
+    const birthdaysToday = calendar
+      .flatMap((monthEntry) => monthEntry.birthdays)
+      .filter((b) => b.date.day === todayDay && b.date.month === todayMonth);
+
+    const namesString = birthdaysToday.reduce((acc, curr, index) => {
+      return acc + (index > 0 ? ", " : "") + curr.name;
+    }, "");
+
+    setNames(namesString);
 
     // Calcular cuántos milisegundos faltan para la medianoche
     const now = new Date();
@@ -235,6 +249,8 @@ export default function Home() {
     // Detener el intervalo a medianoche
     const timeout = setTimeout(() => {
       clearInterval(interval);
+      clearInterval(congratInterval);
+      setIsOpen(false);
       console.log("Fin del día: se detuvo la función");
     }, timeUntilMidnight);
 
@@ -242,9 +258,9 @@ export default function Home() {
     return () => {
       clearInterval(interval);
       clearTimeout(timeout);
+      clearInterval(congratInterval);
     };
-
-  }, [])
+  }, []);
 
   return (
     <>
@@ -253,46 +269,71 @@ export default function Home() {
 
         <section className="grid lg:grid-cols-6 md:grid-cols-3 grid-cols-1 p-8 gap-2">
           {calendar.map((month, index) => (
-            <div key={index} className={cn("bg-white rounded-lg shadow p-2 flex flex-col items-center justify-start", new Date().getMonth() === index ? "bg-gray-200": "")}>
-
-
-              <div className="font-poetsenone text-center text-xl">{month.month}</div>
+            <div
+              key={index}
+              className={cn(
+                "bg-white rounded-lg shadow p-2 flex flex-col items-center justify-start",
+                new Date().getMonth() === index ? "bg-gray-200" : ""
+              )}
+            >
+              <div className="font-poetsenone text-center text-xl">
+                {month.month}
+              </div>
 
               <div className="flex flex-col w-full">
                 {
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   month.birthdays.map((person: any, index) => (
-                    <div key={index} className={cn("flex flex-1 gap-1 items-center max-h-[34px] mb-1", diasRestantes(person.date.day, person.date.month) == 365 ? "bg-white shadow rounded-lg" : "")}>
+                    <div
+                      key={index}
+                      className={cn(
+                        "flex flex-1 gap-1 items-center max-h-[34px] mb-1",
+                        diasRestantes(person.date.day, person.date.month) == 365
+                          ? "bg-white shadow rounded-lg"
+                          : ""
+                      )}
+                    >
                       <div className="w-6 h-6 bg-blue-500 flex items-center justify-center text-center rounded-full text-white text-xs font-semibold">
                         {person.date.day}
                       </div>
                       <div className="flex flex-1 justify-between items-center">
                         <div className="text-xs font-bold">{person.name}</div>
-                        
+
                         <div className="flex flex-1 gap-1 justify-end">
-                        {/* <Cake className="text-blue-500 h-5 w-5" /> */}
-                        {diasRestantes(person.date.day, person.date.month) === 365 ? (<>🥳🎉</>) : null}
-                        {diasRestantes(person.date.day, person.date.month) !== 365 && (<Badge variant={"secondary"}>
-                           {diasRestantes(person.date.day, person.date.month)} {diasRestantes(person.date.day, person.date.month) > 1 ? "días" : "día"}
-                           </Badge>)}
+                          {/* <Cake className="text-blue-500 h-5 w-5" /> */}
+                          {diasRestantes(person.date.day, person.date.month) ===
+                          365 ? (
+                            <>🥳🎉</>
+                          ) : null}
+                          {diasRestantes(person.date.day, person.date.month) !==
+                            365 && (
+                            <Badge variant={"secondary"}>
+                              {diasRestantes(
+                                person.date.day,
+                                person.date.month
+                              )}{" "}
+                              {diasRestantes(
+                                person.date.day,
+                                person.date.month
+                              ) > 1
+                                ? "días"
+                                : "día"}
+                            </Badge>
+                          )}
                         </div>
-                        
+
                         <div className="text-sm font-light"></div>
                       </div>
                     </div>
                   ))
                 }
-
               </div>
-
             </div>
           ))}
         </section>
 
-
+        <Congrat name={names} isOpen={isOpen} />
       </div>
     </>
   );
 }
-
-
