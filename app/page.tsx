@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
 import { cn, diasRestantes, isTodayBirthday } from "@/lib/utils";
 import confetti from "canvas-confetti";
-import { clear } from "console";
+
 import { useEffect, useState } from "react";
 
 const calendar = [
