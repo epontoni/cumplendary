@@ -224,7 +224,7 @@ export default function Home() {
 
     const congratInterval = setInterval(() => {
       setIsOpen((prev) => !prev);
-    }, 5000); // cambia cada 5 segundos
+    }, 10000); // cambia cada 5 segundos
 
     const today = new Date();
     const todayDay = today.getDate();
