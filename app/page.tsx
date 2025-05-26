@@ -83,7 +83,7 @@ const calendar = [
   {
     month: "Julio",
     birthdays: [
-      { name: "KAKBERMATTER, María L. J.", date: { day: 6, month: 7 } },
+      { name: "KALBERMATTER, María L. J.", date: { day: 6, month: 7 } },
       { name: "RASPO, Fanny M.", date: { day: 6, month: 7 } },
       { name: "TOBALDI, Adrian C.", date: { day: 13, month: 7 } },
       { name: "CLIFFORD, Carla L.", date: { day: 16, month: 7 } },
