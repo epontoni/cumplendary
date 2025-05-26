@@ -71,6 +71,7 @@ const calendar = [
     month: "Junio",
     birthdays: [
       { name: "GAGLIESI, Susana B.", date: { day: 5, month: 6 } },
+      { name: "RACCA, Carina M.", date: { day: 15, month: 6 } },
       { name: "ORTIZ, Juan P.", date: { day: 15, month: 6 } },
       { name: "BELMONTE, Valeria E.", date: { day: 21, month: 6 } },
       { name: "FALCO, Romina del M.", date: { day: 23, month: 6 } },
@@ -84,7 +85,6 @@ const calendar = [
     birthdays: [
       { name: "KAKBERMATTER, María L. J.", date: { day: 6, month: 7 } },
       { name: "RASPO, Fanny M.", date: { day: 6, month: 7 } },
-      { name: "RACCA, Carina M.", date: { day: 15, month: 7 } },
       { name: "TOBALDI, Adrian C.", date: { day: 13, month: 7 } },
       { name: "CLIFFORD, Carla L.", date: { day: 16, month: 7 } },
       { name: "DIEGUEZ, Jorge R.", date: { day: 18, month: 7 } },
