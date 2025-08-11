@@ -15,9 +15,9 @@ const calendar = [
     birthdays: [
       { name: "ANGELETTI, Alejandro F.", date: { day: 1, month: 1 } },
       { name: "PIERSIMONI, Anibal J.", date: { day: 10, month: 1 } },
-      { name: "Bonetto, Lorena S.", date: { day: 18, month: 1 } },
+      { name: "BONETTO, Lorena S.", date: { day: 18, month: 1 } },
       { name: "RINAUDO, Lucrecia", date: { day: 23, month: 1 } },
-      { name: "MOLINEGRO, Zulma M.", date: { day: 26, month: 1 } },
+      { name: "MOLINENGRO, Zulma M.", date: { day: 26, month: 1 } },
       { name: "LOVERA, Gisela M.", date: { day: 28, month: 1 } },
       { name: "MARTINEZ, Facundo", date: { day: 28, month: 1 } },
     ],
@@ -92,7 +92,7 @@ const calendar = [
       { name: "MARANI, Daniel E.", date: { day: 18, month: 7 } },
       { name: "MOCCICAFREDDO, Natalia", date: { day: 18, month: 7 } },
       { name: "GASTALDI, Cesar C.", date: { day: 14, month: 7 } },
-      { name: "MOLINEGRO, Silvia A.", date: { day: 21, month: 7 } },
+      { name: "MOLINENGRO, Silvia A.", date: { day: 21, month: 7 } },
       { name: "SERASSIO, Lucas", date: { day: 23, month: 7 } },
       { name: "MOYANO, José M.", date: { day: 25, month: 7 } },
       { name: "RAMAZZOTTI, Antonella S.", date: { day: 31, month: 7 } },
@@ -171,11 +171,12 @@ const calendar = [
 
 // const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-const isBirthday = isTodayBirthday(calendar);
-
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(isBirthday);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
   const [names, setNames] = useState("");
+
+  const isBirthday = isTodayBirthday(calendar);
 
   const shootConfetti = () => {
     // const duration = 15 * 1000;
@@ -215,7 +216,38 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (!isBirthday) return;
+    // Configurar el timer para actualizar a medianoche
+    const setupMidnightUpdate = () => {
+      const now = new Date();
+      const tomorrow = new Date();
+      tomorrow.setDate(now.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0); // medianoche del día siguiente
+
+      const timeUntilMidnight = tomorrow.getTime() - now.getTime();
+
+      // Configurar timeout para medianoche
+      const midnightTimeout = setTimeout(() => {
+        setCurrentDate(new Date());
+        // Reconfigurar para la siguiente medianoche
+        setupMidnightUpdate();
+      }, timeUntilMidnight);
+
+      return midnightTimeout;
+    };
+
+    const midnightTimeout = setupMidnightUpdate();
+
+    // Limpieza
+    return () => {
+      clearTimeout(midnightTimeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    const isBirthdayToday = isTodayBirthday(calendar, currentDate);
+    setIsOpen(isBirthdayToday);
+
+    if (!isBirthdayToday) return;
 
     shootConfetti();
 
@@ -226,9 +258,8 @@ export default function Home() {
       setIsOpen((prev) => !prev);
     }, 10000); // cambia cada 5 segundos
 
-    const today = new Date();
-    const todayDay = today.getDate();
-    const todayMonth = today.getMonth() + 1; // getMonth() is 0-indexed
+    const todayDay = currentDate.getDate();
+    const todayMonth = currentDate.getMonth() + 1; // getMonth() is 0-indexed
 
     const birthdaysToday = calendar
       .flatMap((monthEntry) => monthEntry.birthdays)
@@ -241,10 +272,9 @@ export default function Home() {
     setNames(namesString);
 
     // Calcular cuántos milisegundos faltan para la medianoche
-    const now = new Date();
-    const midnight = new Date();
+    const midnight = new Date(currentDate);
     midnight.setHours(24, 0, 0, 0); // siguiente medianoche
-    const timeUntilMidnight = midnight.getTime() - now.getTime();
+    const timeUntilMidnight = midnight.getTime() - currentDate.getTime();
 
     // Detener el intervalo a medianoche
     const timeout = setTimeout(() => {
@@ -260,7 +290,7 @@ export default function Home() {
       clearTimeout(timeout);
       clearInterval(congratInterval);
     };
-  }, []);
+  }, [currentDate]); // Dependencia de currentDate para que se ejecute cuando cambie la fecha
 
   return (
     <>
@@ -273,7 +303,7 @@ export default function Home() {
               key={index}
               className={cn(
                 "bg-white rounded-lg shadow p-2 flex flex-col items-center justify-start",
-                new Date().getMonth() === index ? "bg-gray-200" : ""
+                currentDate.getMonth() === index ? "bg-gray-200" : ""
               )}
             >
               <div className="font-poetsenone text-center text-xl">
@@ -288,7 +318,11 @@ export default function Home() {
                       key={index}
                       className={cn(
                         "flex flex-1 gap-1 items-center max-h-[34px] mb-1",
-                        diasRestantes(person.date.day, person.date.month) == 365
+                        diasRestantes(
+                          person.date.day,
+                          person.date.month,
+                          currentDate
+                        ) == 365
                           ? "bg-white shadow rounded-lg"
                           : ""
                       )}
@@ -301,20 +335,28 @@ export default function Home() {
 
                         <div className="flex flex-1 gap-1 justify-end">
                           {/* <Cake className="text-blue-500 h-5 w-5" /> */}
-                          {diasRestantes(person.date.day, person.date.month) ===
-                          365 ? (
+                          {diasRestantes(
+                            person.date.day,
+                            person.date.month,
+                            currentDate
+                          ) === 365 ? (
                             <>🥳🎉</>
                           ) : null}
-                          {diasRestantes(person.date.day, person.date.month) !==
-                            365 && (
+                          {diasRestantes(
+                            person.date.day,
+                            person.date.month,
+                            currentDate
+                          ) !== 365 && (
                             <Badge variant={"secondary"}>
                               {diasRestantes(
                                 person.date.day,
-                                person.date.month
+                                person.date.month,
+                                currentDate
                               )}{" "}
                               {diasRestantes(
                                 person.date.day,
-                                person.date.month
+                                person.date.month,
+                                currentDate
                               ) > 1
                                 ? "días"
                                 : "día"}

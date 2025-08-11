@@ -1,13 +1,13 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export function diasRestantes(dia: number, mes:number) {
-  const hoy = new Date()
-  const anioActual = hoy.getFullYear()
+export function diasRestantes(dia: number, mes: number, fechaBase?: Date) {
+  const hoy = fechaBase || new Date();
+  const anioActual = hoy.getFullYear();
 
   // Los meses en JS van de 0 (enero) a 11 (diciembre), por eso restamos 1
   let fechaObjetivo = new Date(anioActual, mes - 1, dia);
@@ -27,8 +27,8 @@ export function diasRestantes(dia: number, mes:number) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isTodayBirthday(calendar: any) {
-  const today = new Date();
+export function isTodayBirthday(calendar: any, fechaBase?: Date) {
+  const today = fechaBase || new Date();
   const currentDay = today.getDate();
   const currentMonth = today.getMonth() + 1; // Los meses en JS van de 0 a 11
 
