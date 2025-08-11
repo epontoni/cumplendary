@@ -176,7 +176,7 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [names, setNames] = useState("");
 
-  const isBirthday = isTodayBirthday(calendar);
+  //const isBirthday = isTodayBirthday(calendar);
 
   const shootConfetti = () => {
     // const duration = 15 * 1000;
