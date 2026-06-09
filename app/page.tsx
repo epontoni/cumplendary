@@ -169,12 +169,159 @@ const calendar = [
   },
 ];
 
-// const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+const MONTH_NAMES = [
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
+];
+
+function parseMonth(monthStr: string): number {
+  const clean = monthStr.trim().toLowerCase();
+  const num = parseInt(clean, 10);
+  if (!isNaN(num) && num >= 1 && num <= 12) return num;
+
+  // Try month names
+  const index = MONTH_NAMES.findIndex((m) => m.toLowerCase() === clean);
+  if (index !== -1) return index + 1;
+
+  // Try abbreviations
+  const abbreviations = [
+    "ene",
+    "feb",
+    "mar",
+    "abr",
+    "may",
+    "jun",
+    "jul",
+    "ago",
+    "sep",
+    "oct",
+    "nov",
+    "dic",
+  ];
+  const abbIndex = abbreviations.findIndex((abb) => clean.startsWith(abb));
+  if (abbIndex !== -1) return abbIndex + 1;
+
+  return -1;
+}
+
+function parseCSV(csvText: string) {
+  const lines = csvText.split(/\r?\n/);
+  if (lines.length === 0) return [];
+
+  // Detect separator (comma or semicolon)
+  let separator = ",";
+  const firstLine = lines[0] || "";
+  const commas = (firstLine.match(/,/g) || []).length;
+  const semicolons = (firstLine.match(/;/g) || []).length;
+  if (semicolons > commas) {
+    separator = ";";
+  }
+
+  const rawRows: string[][] = [];
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    // Parse CSV line handling quotes and dynamic separator
+    const parts: string[] = [];
+    let current = "";
+    let inQuotes = false;
+    for (let i = 0; i < trimmed.length; i++) {
+      const char = trimmed[i];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === separator && !inQuotes) {
+        parts.push(current.trim());
+        current = "";
+      } else {
+        current += char;
+      }
+    }
+    parts.push(current.trim());
+    rawRows.push(parts);
+  }
+
+  if (rawRows.length === 0) return [];
+
+  // Check if the first row is a header
+  let startIndex = 0;
+  const firstRow = rawRows[0];
+  if (firstRow.length >= 3) {
+    const dayVal = parseInt(firstRow[1], 10);
+    const parsedM = parseMonth(firstRow[2]);
+    if (isNaN(dayVal) || parsedM === -1) {
+      startIndex = 1; // skip header
+    }
+  }
+
+  const data: { name: string; day: number; month: number }[] = [];
+  for (let i = startIndex; i < rawRows.length; i++) {
+    const parts = rawRows[i];
+    if (parts.length >= 3) {
+      const name = parts[0].replace(/^"|"$/g, "").trim();
+      const day = parseInt(parts[1], 10);
+      const month = parseMonth(parts[2]);
+      if (name && !isNaN(day) && month !== -1) {
+        data.push({ name, day, month });
+      }
+    }
+  }
+
+  return data;
+}
+
+function buildCalendar(
+  birthdays: { name: string; day: number; month: number }[]
+) {
+  return MONTH_NAMES.map((monthName, index) => {
+    const monthNum = index + 1;
+    const monthBirthdays = birthdays
+      .filter((b) => b.month === monthNum)
+      .map((b) => ({
+        name: b.name,
+        date: { day: b.day, month: b.month },
+      }))
+      .sort((a, b) => a.date.day - b.date.day);
+
+    return {
+      month: monthName,
+      birthdays: monthBirthdays,
+    };
+  });
+}
 
 export default function Home() {
+  const [calendarData, setCalendarData] = useState(calendar);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
   const [names, setNames] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Cargar datos desde localStorage al montar el componente (solo del lado del cliente)
+  useEffect(() => {
+    setIsMounted(true);
+    try {
+      const cached = localStorage.getItem("cumplendary_cached_calendar");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setCalendarData(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Error loading cached calendar:", e);
+    }
+  }, []);
 
   //const isBirthday = isTodayBirthday(calendar);
 
@@ -244,7 +391,46 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const isBirthdayToday = isTodayBirthday(calendar, currentDate);
+    const fetchCalendarData = async () => {
+      try {
+        const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-32XR24R3xtBtRSgbWofagWh4HVriNypncwRtYWFX6u7W6JsEcWOOqlHxEnVRHJazVfgPDk6hk2mJ/pub?output=csv";
+        const cacheBuster = `&t=${Date.now()}`;
+        const response = await fetch(`${url}${cacheBuster}`);
+        if (!response.ok) throw new Error("Error fetching calendar data");
+
+        const csvText = await response.text();
+        if (!csvText || csvText.trim().length === 0) {
+          console.warn("Spreadsheet CSV is empty");
+          return;
+        }
+
+        const parsedBirthdays = parseCSV(csvText);
+        if (parsedBirthdays.length > 0) {
+          const newCalendar = buildCalendar(parsedBirthdays);
+          setCalendarData(newCalendar);
+          try {
+            localStorage.setItem("cumplendary_cached_calendar", JSON.stringify(newCalendar));
+          } catch (e) {
+            console.error("Error saving calendar to localStorage:", e);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch calendar data:", error);
+      }
+    };
+
+    fetchCalendarData();
+
+    // Sincronizar periódicamente cada 10 minutos
+    const syncInterval = setInterval(fetchCalendarData, 600000);
+
+    return () => {
+      clearInterval(syncInterval);
+    };
+  }, [currentDate]);
+
+  useEffect(() => {
+    const isBirthdayToday = isTodayBirthday(calendarData, currentDate);
     setIsOpen(isBirthdayToday);
 
     if (!isBirthdayToday) return;
@@ -261,7 +447,7 @@ export default function Home() {
     const todayDay = currentDate.getDate();
     const todayMonth = currentDate.getMonth() + 1; // getMonth() is 0-indexed
 
-    const birthdaysToday = calendar
+    const birthdaysToday = calendarData
       .flatMap((monthEntry) => monthEntry.birthdays)
       .filter((b) => b.date.day === todayDay && b.date.month === todayMonth);
 
@@ -290,7 +476,7 @@ export default function Home() {
       clearTimeout(timeout);
       clearInterval(congratInterval);
     };
-  }, [currentDate]); // Dependencia de currentDate para que se ejecute cuando cambie la fecha
+  }, [currentDate, calendarData]); // Dependencia de currentDate y calendarData
 
   return (
     <>
@@ -298,12 +484,12 @@ export default function Home() {
         <Header />
 
         <section className="grid lg:grid-cols-6 md:grid-cols-3 grid-cols-1 p-8 gap-2">
-          {calendar.map((month, index) => (
+          {calendarData.map((month, index) => (
             <div
               key={index}
               className={cn(
                 "bg-white rounded-lg shadow p-2 flex flex-col items-center justify-start",
-                currentDate.getMonth() === index ? "bg-gray-200" : ""
+                isMounted && currentDate.getMonth() === index ? "bg-gray-200" : ""
               )}
             >
               <div className="font-poetsenone text-center text-xl">
@@ -318,11 +504,12 @@ export default function Home() {
                       key={index}
                       className={cn(
                         "flex flex-1 gap-1 items-center max-h-[34px] mb-1",
-                        diasRestantes(
-                          person.date.day,
-                          person.date.month,
-                          currentDate
-                        ) == 365
+                        isMounted &&
+                          diasRestantes(
+                            person.date.day,
+                            person.date.month,
+                            currentDate
+                          ) == 365
                           ? "bg-white shadow rounded-lg"
                           : ""
                       )}
@@ -335,33 +522,35 @@ export default function Home() {
 
                         <div className="flex flex-1 gap-1 justify-end">
                           {/* <Cake className="text-blue-500 h-5 w-5" /> */}
-                          {diasRestantes(
+                          {isMounted &&
+                          diasRestantes(
                             person.date.day,
                             person.date.month,
                             currentDate
                           ) === 365 ? (
                             <>🥳🎉</>
                           ) : null}
-                          {diasRestantes(
+                          {isMounted &&
+                          diasRestantes(
                             person.date.day,
                             person.date.month,
                             currentDate
                           ) !== 365 && (
-                            <Badge variant={"secondary"}>
-                              {diasRestantes(
-                                person.date.day,
-                                person.date.month,
-                                currentDate
-                              )}{" "}
-                              {diasRestantes(
-                                person.date.day,
-                                person.date.month,
-                                currentDate
-                              ) > 1
-                                ? "días"
-                                : "día"}
-                            </Badge>
-                          )}
+                              <Badge variant={"secondary"}>
+                                {diasRestantes(
+                                  person.date.day,
+                                  person.date.month,
+                                  currentDate
+                                )}{" "}
+                                {diasRestantes(
+                                  person.date.day,
+                                  person.date.month,
+                                  currentDate
+                                ) > 1
+                                  ? "días"
+                                  : "día"}
+                              </Badge>
+                            )}
                         </div>
 
                         <div className="text-sm font-light"></div>

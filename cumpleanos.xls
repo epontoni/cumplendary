@@ -1,0 +1,124 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!--[if gte mso 9]>
+<xml>
+ <x:ExcelWorkbook>
+  <x:ExcelWorksheets>
+   <x:ExcelWorksheet>
+    <x:Name>Cumpleaños</x:Name>
+    <x:WorksheetOptions>
+     <x:DisplayGridlines/>
+    </x:WorksheetOptions>
+   </x:ExcelWorksheet>
+  </x:ExcelWorksheets>
+ </x:ExcelWorkbook>
+</xml>
+<![endif]-->
+</head>
+<body>
+<table>
+  <tr>
+    <th>Nombre</th>
+    <th>Día</th>
+    <th>Mes</th>
+  </tr>
+  <tr><td>ANGELETTI, Alejandro F.</td><td>1</td><td>1</td></tr>
+  <tr><td>VALINOTTI, Gerardo E.</td><td>8</td><td>1</td></tr>
+  <tr><td>PIERSIMONI, Anibal J.</td><td>10</td><td>1</td></tr>
+  <tr><td>BONETTO, Lorena S.</td><td>18</td><td>1</td></tr>
+  <tr><td>RINAUDO, Lucrecia</td><td>23</td><td>1</td></tr>
+  <tr><td>MOLINENGO, Zulma M.</td><td>26</td><td>1</td></tr>
+  <tr><td>LOVERA, Gisela M.</td><td>28</td><td>1</td></tr>
+  <tr><td>MARTINEZ, Facundo</td><td>28</td><td>1</td></tr>
+  <tr><td>TORRES, Horacio D.</td><td>1</td><td>2</td></tr>
+  <tr><td>BAROLO, Viviana G.</td><td>2</td><td>2</td></tr>
+  <tr><td>QUINTERO, Luis M.</td><td>6</td><td>2</td></tr>
+  <tr><td>CIAMBERLINI, Ivana A.</td><td>16</td><td>2</td></tr>
+  <tr><td>MAZZIERI, Claudio M.</td><td>14</td><td>2</td></tr>
+  <tr><td>ALESSANDRONI, Matías E.</td><td>28</td><td>2</td></tr>
+  <tr><td>FONTANA, Natali del R.</td><td>2</td><td>3</td></tr>
+  <tr><td>MANSILLA, Eduardo D.</td><td>11</td><td>3</td></tr>
+  <tr><td>RASPO, Vanesa B.</td><td>16</td><td>3</td></tr>
+  <tr><td>CASTRILLO, Gisela A.</td><td>25</td><td>3</td></tr>
+  <tr><td>GUARINO, Francisco A.</td><td>2</td><td>4</td></tr>
+  <tr><td>COSCHIZA, Andrea A.</td><td>8</td><td>4</td></tr>
+  <tr><td>STRIGHETTI, Rosalia L.</td><td>12</td><td>4</td></tr>
+  <tr><td>SILVA, Jorge D.</td><td>24</td><td>4</td></tr>
+  <tr><td>GÓMEZ, Fernando D.</td><td>23</td><td>4</td></tr>
+  <tr><td>TITTARELLI, HORACIO</td><td>30</td><td>4</td></tr>
+  <tr><td>BURDINO, Pablo A.</td><td>6</td><td>5</td></tr>
+  <tr><td>PORTA, Ximena A.</td><td>8</td><td>5</td></tr>
+  <tr><td>REALE, Melina S.</td><td>11</td><td>5</td></tr>
+  <tr><td>PENNA, Florencia</td><td>12</td><td>5</td></tr>
+  <tr><td>COLOMBA, Emma M.</td><td>15</td><td>5</td></tr>
+  <tr><td>ORTIZ, Mariángeles E.</td><td>18</td><td>5</td></tr>
+  <tr><td>CARASSO, Maricel P.</td><td>22</td><td>5</td></tr>
+  <tr><td>BALDONI, Silvina A.</td><td>27</td><td>5</td></tr>
+  <tr><td>GAGLIESI, Susana B.</td><td>5</td><td>6</td></tr>
+  <tr><td>RACCA, Carina M.</td><td>15</td><td>6</td></tr>
+  <tr><td>ORTIZ, Juan P.</td><td>15</td><td>6</td></tr>
+  <tr><td>BELMONTE, Valeria E.</td><td>21</td><td>6</td></tr>
+  <tr><td>FALCO, Romina del M.</td><td>23</td><td>6</td></tr>
+  <tr><td>CAPPELLI, Gilda</td><td>25</td><td>6</td></tr>
+  <tr><td>GÓMEZ, Norma N.</td><td>26</td><td>6</td></tr>
+  <tr><td>FILIPUZZI, Horacio M.</td><td>20</td><td>6</td></tr>
+  <tr><td>KALBERMATTER, María L. J.</td><td>6</td><td>7</td></tr>
+  <tr><td>RASPO, Fanny M.</td><td>6</td><td>7</td></tr>
+  <tr><td>TOBALDI, Adrian C.</td><td>13</td><td>7</td></tr>
+  <tr><td>CLIFFORD, Carla L.</td><td>16</td><td>7</td></tr>
+  <tr><td>DIEGUEZ, Jorge R.</td><td>18</td><td>7</td></tr>
+  <tr><td>GRASSO, Alfonsina</td><td>18</td><td>7</td></tr>
+  <tr><td>MARANI, Daniel E.</td><td>18</td><td>7</td></tr>
+  <tr><td>MOCCICAFREDDO, Natalia</td><td>18</td><td>7</td></tr>
+  <tr><td>GASTALDI, Cesar C.</td><td>14</td><td>7</td></tr>
+  <tr><td>MOLINENGO, Silvia A.</td><td>21</td><td>7</td></tr>
+  <tr><td>SERASSIO, Lucas</td><td>23</td><td>7</td></tr>
+  <tr><td>MOYANO, José M.</td><td>25</td><td>7</td></tr>
+  <tr><td>RAMAZZOTTI, Antonella S.</td><td>31</td><td>7</td></tr>
+  <tr><td>LÓPEZ, Daniela M.</td><td>1</td><td>8</td></tr>
+  <tr><td>SIEWERT, Eugenio</td><td>1</td><td>8</td></tr>
+  <tr><td>FRATICELLI, Julieta A.</td><td>3</td><td>8</td></tr>
+  <tr><td>PONTONI, Emanuel</td><td>9</td><td>8</td></tr>
+  <tr><td>LAINATI, Mariano E.</td><td>11</td><td>8</td></tr>
+  <tr><td>ROSSO, Esteban</td><td>11</td><td>8</td></tr>
+  <tr><td>LUJAN, María L.</td><td>15</td><td>8</td></tr>
+  <tr><td>CIAMBERLINI, Fernanda A.</td><td>16</td><td>8</td></tr>
+  <tr><td>TOEDTLI, Gabriela M.</td><td>17</td><td>8</td></tr>
+  <tr><td>TORTA, José L.</td><td>20</td><td>8</td></tr>
+  <tr><td>JAIMES, Diego M.</td><td>23</td><td>8</td></tr>
+  <tr><td>GUZMAN, Rosana A.</td><td>24</td><td>8</td></tr>
+  <tr><td>ROMAGNOLI, Antonela</td><td>29</td><td>8</td></tr>
+  <tr><td>RANIERI, Lucas J.</td><td>6</td><td>9</td></tr>
+  <tr><td>COLOMBA, Lucia M.</td><td>16</td><td>9</td></tr>
+  <tr><td>RIOS, Carolina E.</td><td>18</td><td>9</td></tr>
+  <tr><td>ROJAS, Emanuel H. M.</td><td>12</td><td>9</td></tr>
+  <tr><td>GRASSO, Andrés P.</td><td>20</td><td>9</td></tr>
+  <tr><td>BALDERRAMO, Saul A.</td><td>26</td><td>9</td></tr>
+  <tr><td>GROSSO, Marcela A.</td><td>26</td><td>9</td></tr>
+  <tr><td>CARABAJAL, María de los A.</td><td>30</td><td>9</td></tr>
+  <tr><td>FUNES, Claudio M.</td><td>2</td><td>10</td></tr>
+  <tr><td>DE SIMONE, Marina</td><td>3</td><td>10</td></tr>
+  <tr><td>TITTARELLI, Claudia P.</td><td>11</td><td>10</td></tr>
+  <tr><td>ARTONI, Eduardo M. L.</td><td>13</td><td>10</td></tr>
+  <tr><td>MOCCICAFREDDO, Alfonsina I.</td><td>13</td><td>10</td></tr>
+  <tr><td>CALVO, Natalia B.</td><td>12</td><td>10</td></tr>
+  <tr><td>BEDETTI, Marina</td><td>11</td><td>11</td></tr>
+  <tr><td>GONZÁLEZ, Ariana M.</td><td>17</td><td>11</td></tr>
+  <tr><td>VEGA RAVASI, Claudia B.</td><td>21</td><td>11</td></tr>
+  <tr><td>GALLIANO, Walter C.</td><td>23</td><td>11</td></tr>
+  <tr><td>MAINARDI, Fanny</td><td>23</td><td>11</td></tr>
+  <tr><td>REINAUDI, Natalia S.</td><td>24</td><td>11</td></tr>
+  <tr><td>TORRES, Esteban</td><td>27</td><td>11</td></tr>
+  <tr><td>ONGINI, Marcela A.</td><td>28</td><td>11</td></tr>
+  <tr><td>FIGUEROA, Juan C.</td><td>30</td><td>11</td></tr>
+  <tr><td>ROSSO CAVALLAZZI, Macarena</td><td>1</td><td>12</td></tr>
+  <tr><td>VILLEGAS, Daniela B. M.</td><td>8</td><td>12</td></tr>
+  <tr><td>MOLINA, Leila del V.</td><td>11</td><td>12</td></tr>
+  <tr><td>ROMAGNOLI, María B.</td><td>17</td><td>12</td></tr>
+  <tr><td>HEREDIA, Débora</td><td>20</td><td>12</td></tr>
+  <tr><td>LUPPO, Gustavo O.</td><td>24</td><td>12</td></tr>
+  <tr><td>TACCA, Griselda M. del V.</td><td>29</td><td>12</td></tr>
+</table>
+</body>
+</html>
